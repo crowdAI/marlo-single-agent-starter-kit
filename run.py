@@ -8,8 +8,26 @@ def get_join_tokens():
         """
             In the crowdAI Evaluation environment obtain the join_tokens 
             from the evaluator
+            
+            the `params` parameter passed to the `evaluator_join_token` only allows
+            the following keys : 
+                    "seed",
+                    "tick_length",
+                    "max_retries",
+                    "retry_sleep",
+                    "step_sleep",
+                    "skip_steps",
+                    "videoResolution",
+                    "continuous_to_discrete",
+                    "allowContinuousMovement",
+                    "allowDiscreteMovement",
+                    "allowAbsoluteMovement",
+                    "add_noop_command",
+                    "comp_all_commands"
+                    # TODO: Add this to the official documentation ? 
+                    # Help Wanted :D Pull Requests welcome :D 
         """
-        join_tokens = marlo.evaluator_join_token()
+        join_tokens = marlo.evaluator_join_token(params={})
 
     else:
         """
