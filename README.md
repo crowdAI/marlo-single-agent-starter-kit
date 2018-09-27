@@ -94,7 +94,7 @@ docker run --net=host -it $IMAGE_NAME /home/crowdai/run.sh
   "gpu":false
 }
 ```
-This is used to map your submission to the said challenge.
+This is used to map your submission to the said challenge, so please remember to use the correct `challenge_id` and `grader_id` as specified above.
 
 Please specify if your code will a GPU or not for the evaluation of your model. If you specify `true` for the GPU, a **NVIDIA Tesla K80 GPU** will be provided and used for the evaluation.
 
@@ -112,6 +112,8 @@ conda env export --no-build > environment.yml
 # Note the `--no-build` flag, which is important if you want your anaconda env to be replicable across all 
 ```
 
+### Debugging the packaged software environment
+
 If you have issues with your submission because of your software environment and dependencies, you can debug them, by first building the docker image, and then getting a shell inside the image by : 
 ```
 docker run --net=host -it $IMAGE_NAME /bin/bash 
@@ -120,6 +122,7 @@ and then exploring to find the cause of the issue.
 
 ### Code Entrypoint
 The evaluator will use `/home/crowdai/run.sh` as the entrypoint, so please remember to have a `run.sh` at the root, which can instantitate any necessary environment variables, and also start executing your actual code. This repository includes a sample `run.sh` file.
+If you are using a Dockerfile to specify your software environment, please remember to create a `crowdai` user, and place the entrypoint code at `run.sh`.
 
 ## Submission 
 To make a submission, you will have to create a private repository on [https://gitlab.crowdai.org](https://gitlab.crowdai.org).
@@ -127,8 +130,8 @@ To make a submission, you will have to create a private repository on [https://g
 You will have to add your SSH Keys to your GitLab account by following the instructions [here](https://docs.gitlab.com/ee/gitlab-basics/create-your-ssh-keys.html).
 If you do not have SSH Keys, you will first need to [generate one](https://docs.gitlab.com/ee/ssh/README.html#generating-a-new-ssh-key-pair).
 
-Then you can create a submission by making a *tag push* to your repository on [https://gitlab.crowdai.org](https://gitlab.crowdai.org). **Any tag push to your private repository is considered as a submission**
-Then you can add the correct git remote by doing : 
+Then you can create a submission by making a *tag push* to your repository on [https://gitlab.crowdai.org](https://gitlab.crowdai.org). **Any tag push to your private repository is considered as a submission**   
+Then you can add the correct git remote, and finally submit by doing : 
 
 ```
 cd marlo-single-agent-starter-kit
@@ -136,15 +139,11 @@ cd marlo-single-agent-starter-kit
 git remote add crowdai git@gitlab.crowdai.org:<YOUR_CROWDAI_USER_NAME>/marlo-single-agent-starter-kit.git
 git push crowdai master
 
-# Update Author
-sed -i 's/spMohanty/<YOUR_CROWDAI_USER_NAME>/g' crowdai.json
-git commit -am "update crowdai.json"
-
 # Create a tag for your submission and push
 git tag -am "v0.1" v0.1
 git push crowdai v0.1
 
-# Note : If the contents of your repository (latest commit hash) doesnot change, 
+# Note : If the contents of your repository (latest commit hash) does not change, 
 # then pushing a new tag will not trigger a new evaluation.
 ```
 You now should be able to see the details of your submission at : 
