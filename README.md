@@ -11,11 +11,7 @@ The task is to submit an agent which can maximise the cumulative reward in the [
 
 Participants will have to submit their code, with packaging specifications, and the evaluator will automatically build a docker image and execute their agent against different instantiations of the `FindTheGoal` environment.
 
-### <a name="local_build"></a> Local Debugging
-
-Instructions for building and testing the image locally.   
-
-#### <a name="deps"></a> Install Dependencies
+### Setup
 * **docker** : By following the instructions [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 * **nvidia-docker** : By following the instructions [here](https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-2.0))
 * **repo2docker**
@@ -41,13 +37,68 @@ python -c "from marlo import MalmoPython"
 conda install pytorch torchvision -c pytorch
 ```
 
-#### Clone repository 
+### Clone repository 
 ```
 git clone git@github.com:crowdAI/marlo-single-agent-starter-kit.git
 cd marlo-single-agent-starter-kit
 ```
 
-#### Package your software environment
+### Build Docker Image locally 
+```
+cd marlo-single-agent-starter-kit
+
+# The following are the contents of the ./build.sh file
+# Hence you can alternatively call ./build.sh for the same effect.
+
+export IMAGE_NAME="marlo_random_agent"
+
+crowdai-repo2docker --no-run \
+  --user-id 1001 \
+  --user-name crowdai \
+  --image-name ${IMAGE_NAME} \
+  --debug .
+```
+This should take some time, but it will build a docker image out of the this repository
+
+### Test Submission Locally
+Assuming you have docker and the rest of the dependencies installed..
+```
+cd marlo-single-agent-starter-kit
+# The following are the contents of the ./test_submission_locally.sh file
+# Hence you can alternatively call ./test_submission_locally.sh for the same effect.
+
+# Build Image from the repository 
+./build.sh
+
+# Ensure you have a Minecraft Client running on port 10000
+# by doing : $MALMO_MINECRAFT_ROOT/launchClient.sh -port 10000
+
+docker run --net=host -it $IMAGE_NAME /home/crowdai/run.sh
+
+# Now if everything works out well, then you should see the agent inside 
+# the docker container interacting with the minecraft client on your host.
+```
+
+## Important Concepts
+
+### Repository Structure
+* `crowdai.json`
+  Each repository should have a `crowdai.json` with the following content : 
+```json
+{
+  "challenge_id" : "crowdai-marLo-2018",
+  "grader_id" : "crowdai-marLo-2018",
+  "authors" : ["your-crowdai-username"],
+  "description" : "sample description about your awesome marlo agent",
+  "license" : "MIT",
+  "gpu":false
+}
+```
+This is used to map your submission to the said challenge.
+
+Please specify if your code will a GPU or not for the evaluation of your model. If you specify `true` for the GPU, a **NVIDIA Tesla K80 GPU** will be provided and used for the evaluation.
+
+### Packaging of your software environment
 You can specify your software environment by using all the [available configuration options of repo2docker](https://repo2docker.readthedocs.io/en/latest/config_files.html). (But please remember to use [crowdai-repo2docker](https://pypi.org/project/crowdai-repo2docker/) to have GPU support)   
 
 The recommended way is to use Anaconda configuration files using **environment.yml** files.
@@ -61,22 +112,44 @@ conda env export --no-build > environment.yml
 # Note the `--no-build` flag, which is important if you want your anaconda env to be replicable across all 
 ```
 
-#### Code Entrypoint
+If you have issues with your submission because of your software environment and dependencies, you can debug them, by first building the docker image, and then getting a shell inside the image by : 
+```
+docker run --net=host -it $IMAGE_NAME /bin/bash 
+```
+and then exploring to find the cause of the issue.
+
+### Code Entrypoint
 The evaluator will use `/home/crowdai/run.sh` as the entrypoint, so please remember to have a `run.sh` at the root, which can instantitate any necessary environment variables, and also start executing your actual code. This repository includes a sample `run.sh` file.
 
-#### Build docker image
-As mentioned previously, the entrypoint for the code will be `/home/crowdai/run.sh`; and the the evaluator expects the principal user of the container to be called as `crowdai`, and the home directory at `/home/crowdai/`.
+## Submission 
+To make a submission, you will have to create a private repository on [https://gitlab.crowdai.org](https://gitlab.crowdai.org).
+
+You will have to add your SSH Keys to your GitLab account by following the instructions [here](https://docs.gitlab.com/ee/gitlab-basics/create-your-ssh-keys.html).
+If you do not have SSH Keys, you will first need to [generate one](https://docs.gitlab.com/ee/ssh/README.html#generating-a-new-ssh-key-pair).
+
+Then you can create a submission by making a *tag push* to your repository on [https://gitlab.crowdai.org](https://gitlab.crowdai.org). **Any tag push to your private repository is considered as a submission**
+Then you can add the correct git remote by doing : 
 
 ```
-export IMAGE_NAME="marlo_agent"
+cd marlo-single-agent-starter-kit
+# Add crowdAI git remote endpoint
+git remote add crowdai git@gitlab.crowdai.org:<YOUR_CROWDAI_USER_NAME>/marlo-single-agent-starter-kit.git
+git push crowdai master
 
-crowdai-repo2docker --no-run \
-  --user-id 1001 \
-  --user-name crowdai \
-  --image-name ${IMAGE_NAME} \
-  --debug .
+# Update Author
+sed -i 's/spMohanty/<YOUR_CROWDAI_USER_NAME>/g' crowdai.json
+git commit -am "update crowdai.json"
+
+# Create a tag for your submission and push
+git tag -am "v0.1" v0.1
+git push crowdai v0.1
+
+# Note : If the contents of your repository (latest commit hash) doesnot change, then pushing a new tag will not trigger a new evaluation.
 ```
-This should take some time, but it will build a docker image out of the this repository
+You now should be able to see the details of your submission at : 
+[gitlab.crowdai.org/<YOUR_CROWDAI_USER_NAME>/marlo-single-agent-starter-kit/issues](gitlab.crowdai.org/<YOUR_CROWDAI_USER_NAME>/marlo-single-agent-starter-kit/issues)
+
+**NOTE**: Remember to update your username in the link above :wink:
 
 # Author
 Sharada Mohanty <https://twitter.com/MeMohanty>
