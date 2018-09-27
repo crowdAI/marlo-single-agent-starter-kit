@@ -5,6 +5,8 @@
 # what happens on the evaluation serber
 ########################################################################
 
+export IMAGE_NAME="marlo_random_agent"
+
 # Build Image from the repository 
 ./build.sh
 
