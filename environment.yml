@@ -37,7 +37,7 @@ dependencies:
   - xz=5.2.3
   - zlib=1.2.11
   - malmo=0.36.0.0
-  - libgfortran=3.0.1
+  - libgfortran
   - libopenblas=0.2.20
   - numpy=1.14.3
   - numpy-base=1.14.3
