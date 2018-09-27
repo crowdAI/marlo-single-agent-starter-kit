@@ -141,6 +141,7 @@ git push crowdai master
 
 # Create a tag for your submission and push
 git tag -am "v0.1" v0.1
+git push crowdai master
 git push crowdai v0.1
 
 # Note : If the contents of your repository (latest commit hash) does not change, 
