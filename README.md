@@ -1,5 +1,6 @@
 ![CrowdAI-Logo](https://github.com/crowdAI/crowdai/raw/master/app/assets/images/misc/crowdai-logo-smile.svg?sanitize=true)
 # marlo-single-agent-starter-kit
+![FindTheGoal](https://media.giphy.com/media/1gWkQbDsHOfo4kZXZv/giphy.gif)
 
 Starter Kit with instructions to make a submission to the first round of the [MarLo challenge](https://www.crowdai.org/challenges/marlo-2018). 
 
