@@ -67,7 +67,9 @@ cd marlo-single-agent-starter-kit
 # The following are the contents of the ./test_submission_locally.sh file
 # Hence you can alternatively call ./test_submission_locally.sh for the same effect.
 
-# Build Image from the repository 
+export IMAGE_NAME="marlo_random_agent"
+
+# Build Image from the repository
 ./build.sh
 
 # Ensure you have a Minecraft Client running on port 10000
@@ -75,7 +77,7 @@ cd marlo-single-agent-starter-kit
 
 docker run --net=host -it $IMAGE_NAME /home/crowdai/run.sh
 
-# Now if everything works out well, then you should see the agent inside 
+# Now if everything works out well, then you should see the agent inside
 # the docker container interacting with the minecraft client on your host.
 ```
 
