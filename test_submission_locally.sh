@@ -1,5 +1,10 @@
 #!/bin/bash 
 
+########################################################################
+# This script tests the submission locally by mimicking (to some extent)
+# what happens on the evaluation serber
+########################################################################
+
 # Build Image from the repository 
 ./build.sh
 
