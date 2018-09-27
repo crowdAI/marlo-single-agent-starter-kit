@@ -1,4 +1,4 @@
-name: marlo
+name: marlo-test
 channels:
   - crowdai
   - conda-forge
@@ -16,7 +16,7 @@ dependencies:
   - python=3.6.6
   - readline=7.0
   - setuptools=40.4.0
-  - sqlite=3.25.1
+  - sqlite=3.25.2
   - tk=8.6.8
   - wheel=0.31.1
   - xz=5.2.4
@@ -40,5 +40,5 @@ dependencies:
     - requests==2.19.1
     - six==1.11.0
     - urllib3==1.23
-prefix: /home/mohanty/anaconda3/envs/marlo
+prefix: /home/mohanty/anaconda3/envs/marlo-test
 
