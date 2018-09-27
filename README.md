@@ -152,5 +152,13 @@ You now should be able to see the details of your submission at :
 
 **NOTE**: Remember to update your username in the link above :wink:
 
+In the link above, you should start seeing something like this take shape : 
+![](https://i.imgur.com/uwBqUC8.png)
+
+and if everything works out correctly, then you should be able to see the final scores like this : 
+![](https://i.imgur.com/QkoGOwv.png)
+
+**Best of Luck** :tada: :tada:
+
 # Author
 Sharada Mohanty <https://twitter.com/MeMohanty>
