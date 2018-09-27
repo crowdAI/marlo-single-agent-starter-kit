@@ -144,7 +144,8 @@ git commit -am "update crowdai.json"
 git tag -am "v0.1" v0.1
 git push crowdai v0.1
 
-# Note : If the contents of your repository (latest commit hash) doesnot change, then pushing a new tag will not trigger a new evaluation.
+# Note : If the contents of your repository (latest commit hash) doesnot change, 
+# then pushing a new tag will not trigger a new evaluation.
 ```
 You now should be able to see the details of your submission at : 
 [gitlab.crowdai.org/<YOUR_CROWDAI_USER_NAME>/marlo-single-agent-starter-kit/issues](gitlab.crowdai.org/<YOUR_CROWDAI_USER_NAME>/marlo-single-agent-starter-kit/issues)
